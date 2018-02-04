@@ -54,7 +54,7 @@ Pour poser des questions via Telegram, créer une Applet IFTTT (détail dans la do
 * THIS : sélectionner Telegram et "New message with key phrase", sélectionner un hashtag déclencheur (exemple : #ee)
 * THAT : sélectionner Webhooks et "Make a web request", dans le champ URL, insérez l'appel API eedomus suivant (avec vos codes personnels):
 
-https://api.eedomus.com/set?action=periph.value&periph_id=123456&value={{Text}}&api_user=XXXX&api_secret=aaaaaaaaaaaaaa  
+<https://api.eedomus.com/set?action=periph.value&periph_id=123456&value={{Text}}&api_user=XXXX&api_secret=aaaaaaaaaaaaaa>  
 où 123456 est le code API du périphérique "Input" du chatBOT, et {{Text}} l'ingrédient IFTTT du message Telegram.  
   
 ![STEP2](https://i.imgur.com/3Z2yRzA.png)
@@ -68,7 +68,7 @@ Pour poser des questions via Google Home, créer une Applet IFTTT :
 * ...choisir un message de réponse instantané de GH (exemple : Ok, je demande), et le langage choisi ("French")
 * THAT : sélectionner Webhooks et "Make a web request", dans le champ URL, insérez l'appel API eedomus suivant (avec vos codes personnels):
 
-https://api.eedomus.com/set?action=periph.value&periph_id=123456&value={{Text}}&api_user=XXXX&api_secret=aaaaaaaaaaaaaa  
+<https://api.eedomus.com/set?action=periph.value&periph_id=123456&value={{Text}}&api_user=XXXX&api_secret=aaaaaaaaaaaaaa>   
 où 123456 est le code API du périphérique "Input" du chatBOT, et {{TextField}} l'ingrédient IFTTT du message Google Assistant.  
   
 ![STEP10](https://i.imgur.com/s6CV0yR.png)
