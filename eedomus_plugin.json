@@ -1,0 +1,134 @@
+{
+	"plugin_id": "chatbot",
+	"name_fr": "chatBOT",
+	"icon": "chatbot.png",
+	"version": "1.02",
+	"creation_date": "2018-01-30",
+	"modification_date": "2018-02-01",
+	"author": "Influman",
+	"description_fr": "ChatBOT. Interagissez avec eedomus",
+	"description_en": "",
+	"description_es": "",
+	"description_it": "",
+	"description_de": "",
+	"forum_link": "http://forum.eedomus.com/viewtopic.php?f=50&t=6680",
+	"parameters": 
+	[
+		{
+			"parameter": "num", 
+			"description": "Numéro de chatBOT",
+			"xtype": "combo",
+			"default_value": "1",
+            "field": "width:110, allowBlank:false, store:[1,2,3,4,5], editable: false, shadow: true, triggerAction: 'all', typeAhead:true"
+        },
+		{
+			"parameter": "lang", 
+			"description": "Langue",
+			"xtype": "combo",
+			"default_value": "fr",
+            "field": "width:110, allowBlank:false, store:[['fr', 'Français'], ['en', 'English'], ['sp', 'Español']], editable: false, shadow: true, triggerAction: 'all', typeAhead:true"
+        },
+		{
+			"parameter": "notif", 
+			"description": "Plugin Notification (Telegram, FreeSMS...)",
+			"xtype": "combo",
+			"field": "store : getCombo('/json/list_all.php?actuator_only=1'), displayField: 'label', valueField: 'id', triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: true"
+		}
+    ],
+	"scripts":
+	[
+		{
+			"name": "chatbot.php"
+		}
+	],
+	"devices":
+    [
+		{
+			"device_id": "chatbot",
+			"module_id": "41",
+			"type": "http",
+			"name_fr": "chatBOT #plugin.parameters.num - Paramètres",
+			"icon": "chatbot.png",
+			"utilisation_id": "43",
+			"parameters":
+			{
+				"VAR1": "plugin.parameters.notif",
+				"VAR2": "Code API Output (facultatif)",
+				"VAR3": "plugin.parameters.lang",
+				"value_type": "list",
+				"ignore_errors": 3,
+				"RAW_URL": "",
+				"RAW_XPATH": "",
+				"POLLING": "0"
+			},
+			"values":
+			[
+				{ "value": "0", "description": "~(o_o)~", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "&action=request&value=[RAW_VALUE]&notif=[VAR1]&output=[VAR2]&lang=[VAR3]&num=plugin.parameters.num" },
+				{ "value": "1", "description": "Start,Lumière,Salon,API,100", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "2", "description": "Stop,Lumière,Salon,API,0", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "10", "description": "Open,Volet,Salon,API,2", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "11", "description": "Close,Volet,Salon,API,3", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "20", "description": "Get,Température,Salon,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "21", "description": "Get,Porte,Test,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "30", "description": "Get,Alarme,,API,,password", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "31", "description": "Start,Alarme,,API,3,password", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "40", "description": "Set,Température,Salon,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" }
+				
+			]
+		},
+		{
+			"device_id": "input",
+			"parent_id": "chatbot",
+			"module_id": "51",
+			"type": "http",
+			"name_fr": "chatBOT #plugin.parameters.num - Input",
+			"icon": "chatbot.png",
+			"utilisation_id": "35",
+			"parameters":
+			{
+				"VAR1": "plugin.parameters.notif",
+				"VAR2": "Code API Output (facultatif)",
+				"VAR3": "plugin.parameters.lang",
+				"value_type": "string",
+				"ignore_errors": 1,
+				"RAW_URL": "http://localhost/script/?exec=chatbot.php&action=input&value=&notif=[VAR1]&output=[VAR2]&lang=[VAR3]&num=plugin.parameters.num",
+				"RAW_XPATH": "/CHATBOT/INPUT",
+				"POLLING": "2"
+			}
+		},
+		{
+			"device_id": "output",
+			"parent_id": "chatbot",
+			"module_id": "11",
+			"name_fr": "chatBOT #plugin.parameters.num - Output",
+			"icon": "chatbot.png",
+			"utilisation_id": "35",
+			"parameters":
+			{
+				"VAR1": "plugin.parameters.notif",
+				"VAR2": "Code API Output (facultatif)",
+				"VAR3": "plugin.parameters.lang",
+				"value_type": "string",
+				"ignore_errors": 1,
+				"RAW_URL": "",
+				"RAW_XPATH": "",
+				"POLLING": ""
+			}
+		}
+		
+	],
+	"rules": [
+      {
+        "name_fr": "chatBOT #plugin.parameters.num - Détection INPUT",
+        "criterias":
+        [
+          { "device_id": "plugin.devices.input", "type": "c"  },
+		  { "device_id": "plugin.devices.input", "type": "e", "criteria": "!=", "target": "--"  }
+		],
+        "actions":
+        [
+          { "device_id": "plugin.devices.chatbot", "type": "direct", "action": "0"}
+        ]
+      }
+	]
+}
