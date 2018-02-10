@@ -120,7 +120,27 @@
 		$tab_temperature = array("tempera", "thermostat", "termostat", "combien il fait", "combien fait-il", "degre");
 		$tab_ouvrant = array("porte", "portail", "portill", "fenetr", "velux", "puerta", "ventana", "portal");
 		$tab_alarme = array("alarm", "intrusion");
-	
+		// Réponses interprétées
+		$tab_reponses_lumiere_fr = array("start" => "J'allume ", "stop" => "J'éteins ", "open" => "J'allume ", "close" => "J'éteins ", "get" => "L'état de la lumière est ", "set" => "Je règle la luminosité à ");
+		$tab_reponses_lumiere_en = array("start" => "I turn on the light ", "stop" => "I turn the light off ", "open" => "I turn on the light ", "close" => "I turn the light off ", "get" => "The light is ", "set" => "I adjust the brightness to ");
+		$tab_reponses_lumiere_es = array("start" => "Enciendo", "stop" => "Apago", "open" => "Enciendo", "close" => "Apago", "get" => "El estado de la luz es ", "set" => "Ajusto el brillo a ");
+		
+		$tab_reponses_volet_fr = array("start" => "J'actionne le volet ", "stop" => "J'arrête le volet ", "open" => "J'ouvre ", "close" => "Je ferme ", "get" => "Le volet est ", "set" => "Je fixe le volet à ");
+		$tab_reponses_volet_en = array("start" => "I operate the shutter ", "stop" => "I stop the shutter ", "open" => "I open the shutter ", "close" => "I close the shutter ", "get" => "The shutter is ", "set" => "I set the shutter to ");
+		$tab_reponses_volet_es = array("start" => "Opero la persiana ", "stop" => "Detengo el obturador ", "open" => "Abro el obturador ", "close" => "Cierro el obturado ", "get" => "el obturador es ", "set" => "Posiciono el obturador ");
+		
+		$tab_reponses_ouvrant_fr = array("start" => "Je l'actionne ", "stop" => "Je l'arrête ", "open" => "J'ouvre ", "close" => "Je ferme ", "get" => "C'est ", "set" => "Je fixe à ");
+		$tab_reponses_ouvrant_en = array("start" => "I operate it ", "stop" => "I stop it ", "open" => "I open it", "close" => "I close it ", "get" => "It's ", "set" => "I set it to ");
+		$tab_reponses_ouvrant_es = array("start" => "Lo opero ", "stop" => "Lo detengo ", "open" => "Lo abro ", "close" => "Lo cierro ", "get" => "Esta ", "set" => "Lo rijo en ");
+		
+		$tab_reponses_temperature_fr = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Il fait ", "set" => "Je règle la température à ");
+		$tab_reponses_temperature_en = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "It is ", "set" => "I adjust the temperature to ");
+		$tab_reponses_temperature_es = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Esta a ", "set" => "Ajusto la temperatura a ");
+		
+		$tab_reponses_alarme_fr = array("start" => "J'active l'alarme ", "stop" => "Je désactive l'alarme", "open" => "", "close" => "", "get" => "L'alarme est ", "set" => "");
+		$tab_reponses_alarme_en = array("start" => "I activate the alarm ", "stop" => "I disable the alarm ", "open" => "", "close" => "", "get" => "Alarm is ", "set" => "");
+		$tab_reponses_alarme_es = array("start" => "Activo la alarma ", "stop" => "Desactivo la alarma", "open" => "", "close" => "", "get" => "La alarma está ", "set" => "");
+		
 		// **************************************
 		// reglage de la langue
 		$tab_nack = $tab_nack_fr;
@@ -132,6 +152,11 @@
 		$unit_temp_text = $unit_temp_text_fr;
 		$unit_light_text = $unit_light_text_fr;
 		$att_param_text = $att_param_text_fr;
+		$tab_reponses_lumiere = $tab_reponses_lumiere_fr;
+		$tab_reponses_volet = $tab_reponses_volet_fr;
+		$tab_reponses_temperature = $tab_reponses_temperature_fr;
+		$tab_reponses_ouvrant = $tab_reponses_ouvrant_fr;
+		$tab_reponses_alarme = $tab_reponses_alarme_fr;
 		if ($lang == "en") {
 			$tab_nack = $tab_nack_en;
 			$tab_ack = $tab_ack_en;
@@ -142,6 +167,11 @@
 			$unit_temp_text = $unit_temp_text_en;
 			$unit_light_text = $unit_light_text_en;
 			$att_param_text = $att_param_text_en;
+			$tab_reponses_lumiere = $tab_reponses_lumiere_en;
+			$tab_reponses_volet = $tab_reponses_volet_en;
+			$tab_reponses_temperature = $tab_reponses_temperature_en;
+			$tab_reponses_ouvrant = $tab_reponses_ouvrant_en;
+			$tab_reponses_alarme = $tab_reponses_alarme_en;
 		}
 		if ($lang == "es") {
 			$tab_nack = $tab_nack_es;
@@ -153,6 +183,11 @@
 			$unit_temp_text = $unit_temp_text_es;
 			$unit_light_text = $unit_light_text_es;
 			$att_param_text = $att_param_text_es;
+			$tab_reponses_lumiere = $tab_reponses_lumiere_es;
+			$tab_reponses_volet = $tab_reponses_volet_es;
+			$tab_reponses_temperature = $tab_reponses_temperature_es;
+			$tab_reponses_ouvrant = $tab_reponses_ouvrant_es;
+			$tab_reponses_alarme = $tab_reponses_alarme_es;
 		}
 		
 		// Vérifie que le plugin Notification est effectif pour répondre
@@ -217,6 +252,7 @@
 				$apitoset = loadVariable("CHATBOT_CHKAPI_".$numchat);
 				$valuetoset = loadVariable("CHATBOT_CHKVAL_".$numchat);
 				$actiontoset = loadVariable("CHATBOT_CHKACT_".$numchat);
+				$txt_reponse = loadVariable("CHATBOT_CHKREP_".$numchat);
 				if ($actiontoset == "get") { // get
 					// GET
 					if (is_numeric($apitoset) && $apitoset > 1) {
@@ -227,7 +263,7 @@
 							$request_text = $request_value;
 						}
 						
-						$newnotif = sdk_notification($request_text);
+						$newnotif = sdk_notification($txt_reponse.$request_text);
 					} else {
 						if ($isdebug == 1) {
 							$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -242,21 +278,25 @@
 						if (preg_match($pattern, $input, $matches) == 1) {
 							$valuetoset = $matches[1];
 							if ($valuetoset != "") {
-								$newnotif = sdk_ack("");
+								if ($txt_reponse != "") {
+									$newnotif = sdk_notification($txt_reponse.$valuetoset);
+								} else {
+									$ack = sdk_ack("","");
+								}
 								setValue($apitoset, $valuetoset);
 							} else {
 								if ($isdebug == 1) {
-									$nack = sdk_nack($debug."(".$input.")");
+									$nack = sdk_nack("",$debug."(".$input.")");
 								} else {
-									$nack = sdk_nack("");
+									$nack = sdk_nack("","");
 								}
 							}
 									
 						} else {
 							if ($isdebug == 1) {
-								$nack = sdk_nack($debug."(".$input.")");
+								$nack = sdk_nack("",$debug."(".$input.")");
 							} else {
-								$nack = sdk_nack("");
+								$nack = sdk_nack("","");
 							}
 						}
 					} else {
@@ -270,7 +310,11 @@
 				} else {
 					if (is_numeric($apitoset) && $apitoset > 1 && $valuetoset != "") {
 						setValue($apitoset, $valuetoset);
-						$ack = sdk_ack("");
+						if ($txt_reponse != "") {
+							$newnotif = sdk_notification($txt_reponse);
+						} else {
+							$ack = sdk_ack("","");
+						}
 					} else {
 						if ($isdebug == 1) {
 							$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -281,12 +325,13 @@
 					
 				}
 			} else {
-				$newnotif = sdk_notification($request_text);
+				$newnotif = sdk_notification($bad_mdp_text);
 			}
 			saveVariable("CHATBOT_CHKPWD_".$numchat, "");
 			saveVariable("CHATBOT_CHKAPI_".$numchat, "");
 			saveVariable("CHATBOT_CHKVAL_".$numchat, "");
 			saveVariable("CHATBOT_CHKACT_".$numchat, "");
+			saveVariable("CHATBOT_CHKREP_".$numchat, "");
 		  } else {
 			// interpretation de l'input
 			// recherche de l'action
@@ -418,12 +463,28 @@
 				$needmdp_value = "";
 				$apitoset = "";
 				$valuetoset = "";
+				$txt_reponse = "";
 				for($iparam = 1; $iparam <= count($param_action); $iparam++) {
 					if ($param_action[$iparam] == $actionlue) {
 						$debug .= " Act";
 						// Le paramètre correspond à l'action demandée
 						if (strpos($periphlu, $param_periph[$iparam]) !== false) {
 							$debug .= " Periph";
+							if ($periphlu == "light|lumiere|luz") {
+								$txt_reponse = $tab_reponses_lumiere[$actionlue];
+							}
+							if ($periphlu == "shutter|volet|persiana") {
+								$txt_reponse = $tab_reponses_volet[$actionlue];
+							}
+							if ($periphlu == "porte|fenetre|door|window") {
+								$txt_reponse = $tab_reponses_ouvrant[$actionlue];
+							}
+							if ($periphlu == "temperature|temperatura") {
+								$txt_reponse = $tab_reponses_temperature[$actionlue];
+							}
+							if ($periphlu == "alarme") {
+								$txt_reponse = $tab_reponses_alarme[$actionlue];
+							}
 							// Le paramètre correspond au périphérique demandé
 							if (strpos($input, $param_piece[$iparam]) !== false || $param_piece[$iparam] == "") {
 								$debug .= " Piece";
@@ -448,6 +509,7 @@
 					saveVariable("CHATBOT_CHKAPI_".$numchat, $apitoset);
 					saveVariable("CHATBOT_CHKVAL_".$numchat, $valuetoset);
 					saveVariable("CHATBOT_CHKACT_".$numchat, $actionlue);
+					saveVariable("CHATBOT_CHKREP_".$numchat, $txt_reponse);
 					$newnotif = sdk_notification($mdp_text);
 				} else { // il n'y a pas de demande de mot de passe
 				
@@ -462,15 +524,15 @@
 									$request_text = $request_value;
 								}
 								// mettre l'unité en fonction de la requete periph..
-								if ($temperature && strpos($request_text, "°") !== false) {
+								if ($temperature && strpos($request_text, "°") == false) {
 									$request_text .= $unit_temp_text;
 								}
-								if (($lumiere || $volet) && strpos($request_text, "%") !== false) {
+								if (($lumiere || $volet) && strpos($request_text, "%") == false) {
 									$request_text .= $unit_light_text;
 								}
 								
 								//
-								$newnotif = sdk_notification($request_text);
+								$newnotif = sdk_notification($txt_reponse.$request_text);
 							} else {
 								if ($isdebug == 1) {
 									$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -479,29 +541,53 @@
 								}
 							}
 						} else if ($set) { // set
-							$debug .= " Set";
+							$debug .= " ".$apitoset;
 							if (is_numeric($apitoset) && $apitoset > 1) {
 								// cherche la valeur donnée de l'input à positionner
-								$pattern = '/.+[de|à|a|sur|to] +([0-9]+(\.|,|°|%)*[0-9]*) */';
-								if (preg_match($pattern, $input, $matches) == 1) {
-									$valuetoset = $matches[1];
-									$debug .= " REGEXP ".$matches[1];
+								$pattern = '/.+(de|à|a|sur|to|en) +([0-9]+(\.|,|°|%)*[0-9]*) */'; // valeur numérique après le mot "de, à, a, sur, to, en"
+								$pattern2 = '/.+(de|à|a|sur|to|en) +([a-zA-Z]+)/'; // valeur non numérique en fin de phrase après le mot "de, à, a, sur, to, en"
+								if (preg_match($pattern, $input, $matches) == 1) { 
+									// valeur numérique
+									$valuetoset = $matches[2];
+									$debug .= " REGEX1 ".$matches[2];
 									if ($valuetoset != "") {
-										$newnotif = sdk_ack("");
+										if ($txt_reponse != "") {
+											$newnotif = sdk_notification($txt_reponse.$valuetoset);
+										} else {
+											$ack = sdk_ack("","");
+										}
+										
 										setValue($apitoset, $valuetoset);
 									} else {
 										if ($isdebug == 1) {
-											$nack = sdk_nack($debug."(".$input.")");
+											$nack = sdk_nack("",$debug."(".$input.")");
 										} else {
-											$nack = sdk_nack("");
+											$nack = sdk_nack("","");
 										}
 									}
-									
+								} else if (preg_match($pattern2, $input, $matches) == 1) {
+									// valeur non numérique
+									$valuetoset = $matches[2];
+									$debug .= " REGEX2 ".$matches[2];
+									if ($valuetoset != "") {
+										if ($txt_reponse != "") {
+											$newnotif = sdk_notification($txt_reponse.$valuetoset);
+										} else {
+											$ack = sdk_ack("","");
+										}
+										setValue($apitoset, $valuetoset);
+									} else {
+										if ($isdebug == 1) {
+											$nack = sdk_nack("",$debug."(".$input.")");
+										} else {
+											$nack = sdk_nack("","");
+										}
+									}
 								} else {
 									if ($isdebug == 1) {
-											$nack = sdk_nack($debug."(".$input.")");
+											$nack = sdk_nack("",$debug."(".$input.")");
 									} else {
-											$nack = sdk_nack("");
+											$nack = sdk_nack("","");
 									}
 								}
 								
@@ -518,7 +604,11 @@
 						} else { // action
 							if (is_numeric($apitoset) && $apitoset > 1 && $valuetoset != "") {
 								setValue($apitoset, $valuetoset);
-								$ack = sdk_ack("");
+								if ($txt_reponse != "") {
+									$ack = sdk_notification($txt_reponse);
+								} else {
+									$ack = sdk_ack("","");
+								}
 							} else {
 								if ($isdebug == 1) {
 									$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -529,9 +619,9 @@
 						}
 					} else { // je n'ai pas compris
 						if ($isdebug == 1) {
-							$nack = sdk_nack($debug."(".$input.")");
+							$nack = sdk_nack("",$debug."(".$input.")");
 						} else {
-							$nack = sdk_nack("");
+							$nack = sdk_nack("","");
 						}
 					}
 				} // fin test mdp demandé
@@ -543,9 +633,9 @@
 			
 			} else {	// action non reconnue parmi $activer || $desactiver || $get || $ouvrir || $fermer || $set
 				if ($isdebug == 1) {
-					$nack = sdk_nack($debug."(".$input.")");
+					$nack = sdk_nack("",$debug."(".$input.")");
 				} else {
-					$nack = sdk_nack("");
+					$nack = sdk_nack("","");
 				}
 				
 			}
@@ -557,7 +647,7 @@
 	
 	
 	// Retourner une incompréhension
-	function sdk_nack($val) {
+	function sdk_nack($prefixe, $val) {
 		global $tab_nack;
 		global $notif;
 		global $api_output;
@@ -568,19 +658,19 @@
 		$randomidx = rand(0, count($tab_nack) - 1);
 		if ($output_ok) {
 			if ($val != "") {
-				setValue($api_output, sdk_noaccent($tab_nack[$randomidx])."-".$val);
+				setValue($api_output, $prefixe.sdk_noaccent($tab_nack[$randomidx])."-".$val);
 			} else {
-				setValue($api_output, sdk_noaccent($tab_nack[$randomidx]));
+				setValue($api_output, $prefixe.sdk_noaccent($tab_nack[$randomidx]));
 			}
 		}
 		if ($notification) {
-			saveVariable("CHATBOT_9999_".$numchat, $tab_nack[$randomidx]);
+			saveVariable("CHATBOT_9999_".$numchat, $prefixe.$tab_nack[$randomidx]);
 			setValue($notif, 9999);
 		}
 	}
 	
 	// Retourner une validation
-	function sdk_ack($val) {
+	function sdk_ack($prefixe, $val) {
 		global $tab_ack;
 		global $notif;
 		global $api_output;
@@ -590,14 +680,14 @@
 		$randomidx = rand(0, count($tab_ack) - 1);
 		if ($output_ok) {
 			if ($val != "") {
-				setValue($api_output, sdk_noaccent($tab_ack[$randomidx])."-".$val);
+				setValue($api_output, $prefixe.sdk_noaccent($tab_ack[$randomidx])."-".$val);
 			} else {
-				setValue($api_output, sdk_noaccent($tab_ack[$randomidx]));
+				setValue($api_output, $prefixe.sdk_noaccent($tab_ack[$randomidx]));
 			}
 			
 		}
 		if ($notification) {
-			saveVariable("CHATBOT_9999_".$numchat, sdk_noaccent($tab_ack[$randomidx]));
+			saveVariable("CHATBOT_9999_".$numchat, $prefixe.sdk_noaccent($tab_ack[$randomidx]));
 			setValue($notif, 9999);
 		}
 	}
