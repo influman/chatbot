@@ -90,7 +90,7 @@ Le plugin est installé avec des exemples de valeurs prédéfinies.
 Une interpretation doit être paramétrée dans l'ordre suivant, chaque critère séparé d'une virgule, parmi la liste de valeurs suivantes :  
 
   * L'action : Start ou Stop ou Open ou Close ou Get ou Set
-  * Le type de périphérique : Lumière ou Volet ou Porte ou Température ou Alarme
+  * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio
   * Un mot clé discriminant : par exemple la pièce (non obligatoire)
   * Le code API du périphérique à actionner/interroger
   * La valeur à positionner (si périphérique actionné, vide si GET ou SET)
@@ -99,11 +99,15 @@ Une interpretation doit être paramétrée dans l'ordre suivant, chaque critère sép
 Exemples (avec question Telegram) :  
   
   * Start,Lumière,Salon,123456,100 : Positionnera le périphérique 123456 à 100 à la demande "#ee allume la lampe du salon" par exemple  
+  * Start,Television,,334455,1 : Positionne le périphérique 334455 à 1 à la demande "#ee allume la télé" par exemple  
   * Stop,Lumière,Salon,123456,0 : Positionnera le périphérique 123456 à 0 à la demande "#ee éteind la lumière du salon" par exemple  
   * Open,Volet,Salon,888888,2 : Périphérique 888888 à 2 à la question "#ee Ouvre le volet du salon"  
+  * Close,Television,,334455,10 : Périphérique 334455 à 10 à la question "#ee baisse la tv"  par exemple  
   * Get,Porte,Garage,123456 : Retourne l'état de la porte de garage (ouverte ou fermée) à la question "#ee quel est l'état de la porte du garage ?" par exemple  
   * Get,Alarme,,22222,,password : Retourne l'état de l'alarme après avoir donné le mot de passe "password" à la question "#ee quel est le statut de l'alarme?" par exemple  
   * Set,Température,Salon,123456 : Fixe la température du salon (périp 123456) à la valeur numérique transmise dans la demande  
+  * Set,Television,,334455 : Règle la télévision sur la 23, à la question "#ee mets la chaîne 23"  
+  
   
 NB1 : si mot de passe demandé, via Telegram, il faut le saisir avec le hashtag déclencheur du chatbot "#ee"  
 NB2 : si mot de passe demandé, via Google Home, il faut le donner après "Ok Google eedomus", dans le cas où "eedomus" est votre mot-clé déclencheur du chatbot. 

@@ -1,7 +1,7 @@
 <?php
    $xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>";      
    //***********************************************************************************************************************
-   // V1.02 : ChatBOT eedomus
+   // V1.05 : ChatBOT eedomus
    
 	// recuperation des infos depuis la requete
     $value = getArg("value");
@@ -109,8 +109,8 @@
 		$unit_light_text_es = "%";
 	
 		// MOTS CLES
-		$tab_desactiver = array("desactive", "etein", "stop", "turn off", "switch off", "apaga", "desconect");
-		$tab_activer = array("active", "allume", "actionne", "illumin", "verrouill", "enclenche", "declenche", "turn on", "switch on", "start", "enciende", "encender");
+		$tab_desactiver = array("desactive", "etein", "stop", "coupe", "cut", "turn off", "switch off", "apaga", "desconect");
+		$tab_activer = array("active", "allume", "actionne", "retabli", "illumin", "verrouill", "enclenche", "declenche", "turn on", "switch on", "start", "enciende", "encender");
 		$tab_ouvrir = array("ouvre", "monte", "open", " up", "haut", "abrir", "abre");
 		$tab_fermer = array("ferme", "descen", "baisse", "close", "down", "bas", "cierra", "cerrar");
 		$tab_get = array("quel", "donne", "dit", "combien", "comment", "what", "est-il", "est-elle", "tell", "give", "how much", "get", "cual es", "dime", "cuanto", "que es");
@@ -118,6 +118,8 @@
 		$tab_lumiere = array("lumie", "lumin", "lustre", "lamp", "spot", "veilleuse", "light", "luz", "lampara");
 		$tab_volet = array("volet", "VR", "shutter", "persiana");
 		$tab_temperature = array("tempera", "thermostat", "termostat", "combien il fait", "combien fait-il", "degre");
+		$tab_tv = array("tv", "televis", "la tele", "box", "chaine", "channel", "canal");
+		$tab_radio = array("radio", "frequenc");
 		$tab_ouvrant = array("porte", "portail", "portill", "fenetr", "velux", "puerta", "ventana", "portal");
 		$tab_alarme = array("alarm", "intrusion");
 		// Réponses interprétées
@@ -141,6 +143,14 @@
 		$tab_reponses_alarme_en = array("start" => "I activate the alarm ", "stop" => "I disable the alarm ", "open" => "", "close" => "", "get" => "Alarm is ", "set" => "");
 		$tab_reponses_alarme_es = array("start" => "Activo la alarma ", "stop" => "Desactivo la alarma", "open" => "", "close" => "", "get" => "La alarma está ", "set" => "");
 		
+		$tab_reponses_tv_fr = array("start" => "J'allume la télévision ", "stop" => "J'éteins la télévision", "open" => "Je monte le volume ", "close" => "Je baisse le volume ", "get" => "TV - ", "set" => "");
+		$tab_reponses_tv_en = array("start" => "I turn on the TV ", "stop" => "I turn off the TV ", "open" => "I turn up the volume ", "close" => "I lower the volume ", "get" => "TV - ", "set" => "");
+		$tab_reponses_tv_es = array("start" => "Enciendo la television ", "stop" => "Apago la television ", "open" => "Subo el volumen ", "close" => "Baje el volumen ", "get" => "TV - ", "set" => "");
+		
+		$tab_reponses_radio_fr = array("start" => "J'allume la radio ", "stop" => "J'éteins la radio", "open" => "Je monte le volume ", "close" => "Je baisse le volume ", "get" => "Radio - ", "set" => "");
+		$tab_reponses_radio_en = array("start" => "I turn on the radio ", "stop" => "I turn off the radio ", "open" => "I turn up the volume ", "close" => "I lower the volume ", "get" => "Radio - ", "set" => "");
+		$tab_reponses_radio_es = array("start" => "Enciendo la radio ", "stop" => "Apago la radio ", "open" => "Subo el volumen ", "close" => "Baje el volumen ", "get" => "Radio - ", "set" => "");
+		
 		// **************************************
 		// reglage de la langue
 		$tab_nack = $tab_nack_fr;
@@ -157,6 +167,8 @@
 		$tab_reponses_temperature = $tab_reponses_temperature_fr;
 		$tab_reponses_ouvrant = $tab_reponses_ouvrant_fr;
 		$tab_reponses_alarme = $tab_reponses_alarme_fr;
+		$tab_reponses_tv = $tab_reponses_tv_fr;
+		$tab_reponses_radio = $tab_reponses_radio_fr;
 		if ($lang == "en") {
 			$tab_nack = $tab_nack_en;
 			$tab_ack = $tab_ack_en;
@@ -172,6 +184,8 @@
 			$tab_reponses_temperature = $tab_reponses_temperature_en;
 			$tab_reponses_ouvrant = $tab_reponses_ouvrant_en;
 			$tab_reponses_alarme = $tab_reponses_alarme_en;
+			$tab_reponses_tv = $tab_reponses_tv_en;
+			$tab_reponses_radio = $tab_reponses_radio_en;
 		}
 		if ($lang == "es") {
 			$tab_nack = $tab_nack_es;
@@ -188,6 +202,8 @@
 			$tab_reponses_temperature = $tab_reponses_temperature_es;
 			$tab_reponses_ouvrant = $tab_reponses_ouvrant_es;
 			$tab_reponses_alarme = $tab_reponses_alarme_es;
+			$tab_reponses_tv = $tab_reponses_tv_es;
+			$tab_reponses_radio = $tab_reponses_radio_es;
 		}
 		
 		// Vérifie que le plugin Notification est effectif pour répondre
@@ -349,6 +365,8 @@
 			$temperature = false;
 			$ouvrant = false;
 			$alarme = false;
+			$tv = false;
+			$radio = false;
 			
 			
 			// ACTION
@@ -387,7 +405,7 @@
 					}
 				}
 			}
-			if (!get && !$desactiver && !$activer && !$ouvrir) {
+			if (!$get && !$desactiver && !$activer && !$ouvrir) {
 				foreach($tab_fermer As $tab_fermer_value) {
 					if (strpos($input, $tab_fermer_value) !== false) {
 						$fermer = true;
@@ -405,6 +423,7 @@
 					}
 				}
 			}
+			//*************************************************************************
 			// PERIPHERIQUES
 			foreach($tab_lumiere As $tab_lumiere_value) {
 				if (strpos($input, $tab_lumiere_value) !== false) {
@@ -452,6 +471,25 @@
 					}
 				}
 			}
+			
+			if (!$lumiere && !$volet && !$temperature && !$ouvrant && !$alarme) {
+				foreach($tab_tv As $tab_tv_value) {
+					if (strpos($input, $tab_tv_value) !== false) {
+						$tv = true;
+						$periphlu = "tv|television";
+						break;
+					}
+				}
+			}
+			if (!$lumiere && !$volet && !$temperature && !$ouvrant && !$alarme && !$tv) {
+				foreach($tab_radio As $tab_radio_value) {
+					if (strpos($input, $tab_radio_value) !== false) {
+						$radio = true;
+						$periphlu = "radio";
+						break;
+					}
+				}
+			}
 			// Action trouvée, recherche paramètre correspondant
 			$debug = "";
 			if ($activer || $desactiver || $get || $ouvrir || $fermer || $set) {
@@ -484,6 +522,12 @@
 							}
 							if ($periphlu == "alarme") {
 								$txt_reponse = $tab_reponses_alarme[$actionlue];
+							}
+							if ($periphlu == "tv|television") {
+								$txt_reponse = $tab_reponses_tv[$actionlue];
+							}
+							if ($periphlu == "radio") {
+								$txt_reponse = $tab_reponses_radio[$actionlue];
 							}
 							// Le paramètre correspond au périphérique demandé
 							if (strpos($input, $param_piece[$iparam]) !== false || $param_piece[$iparam] == "") {
@@ -544,8 +588,8 @@
 							$debug .= " ".$apitoset;
 							if (is_numeric($apitoset) && $apitoset > 1) {
 								// cherche la valeur donnée de l'input à positionner
-								$pattern = '/.+(de|à|a|sur|to|en) +([0-9]+(\.|,|°|%)*[0-9]*) */'; // valeur numérique après le mot "de, à, a, sur, to, en"
-								$pattern2 = '/.+(de|à|a|sur|to|en) +([a-zA-Z]+)/'; // valeur non numérique en fin de phrase après le mot "de, à, a, sur, to, en"
+								$pattern = '/.+(de|à|a|sur|to|en|channel|chaine|canal|radio) +([0-9]+(\.|,|°|%)*[0-9]*) */'; // valeur numérique après le mot "de, à, a, sur, to, en"
+								$pattern2 = '/.+(de|à|a|sur|to|en|channel|chaine|canal|radio) +([a-zA-Z]+)/'; // valeur non numérique en fin de phrase après le mot "de, à, a, sur, to, en"
 								if (preg_match($pattern, $input, $matches) == 1) { 
 									// valeur numérique
 									$valuetoset = $matches[2];
