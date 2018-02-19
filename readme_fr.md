@@ -90,7 +90,7 @@ Le plugin est installé avec des exemples de valeurs prédéfinies.
 Une interpretation doit être paramétrée dans l'ordre suivant, chaque critère séparé d'une virgule, parmi la liste de valeurs suivantes :  
 
   * L'action : Start ou Stop ou Open ou Close ou Get ou Set
-  * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio
+  * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio ou Ambiance
   * Un mot clé discriminant : par exemple la pièce (non obligatoire)
   * Le code API du périphérique à actionner/interroger
   * La valeur à positionner (si périphérique actionné, vide si GET ou SET)
@@ -107,6 +107,7 @@ Exemples (avec question Telegram) :
   * Get,Alarme,,22222,,password : Retourne l'état de l'alarme après avoir donné le mot de passe "password" à la question "#ee quel est le statut de l'alarme?" par exemple  
   * Set,Température,Salon,123456 : Fixe la température du salon (périp 123456) à la valeur numérique transmise dans la demande  
   * Set,Television,,334455 : Règle la télévision sur la 23, à la question "#ee mets la chaîne 23"  
+  * Set,Ambiance,Salon,555555 : Règle l'ambiance à "Lumineux", à la question "#ee Peux-tu mettre l'ambiance Lumineux dans le salon"
   
   
 NB1 : si mot de passe demandé, via Telegram, il faut le saisir avec le hashtag déclencheur du chatbot "#ee"  

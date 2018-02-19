@@ -1,8 +1,7 @@
 <?php
    $xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>";      
    //***********************************************************************************************************************
-   // V1.05 : ChatBOT eedomus
-   
+    $version = "v1.12 - 2018/02/19";
 	// recuperation des infos depuis la requete
     $value = getArg("value");
 	$action = getArg("action");
@@ -109,19 +108,46 @@
 		$unit_light_text_es = "%";
 	
 		// MOTS CLES
+		// ACTIONS
 		$tab_desactiver = array("desactive", "etein", "stop", "coupe", "cut", "turn off", "switch off", "apaga", "desconect");
 		$tab_activer = array("active", "allume", "actionne", "retabli", "illumin", "verrouill", "enclenche", "declenche", "turn on", "switch on", "start", "enciende", "encender");
 		$tab_ouvrir = array("ouvre", "monte", "open", " up", "haut", "abrir", "abre");
 		$tab_fermer = array("ferme", "descen", "baisse", "close", "down", "bas", "cierra", "cerrar");
 		$tab_get = array("quel", "donne", "dit", "combien", "comment", "what", "est-il", "est-elle", "tell", "give", "how much", "get", "cual es", "dime", "cuanto", "que es");
 		$tab_set = array("regle", "fixe", "defini", "met", "set ", "change", "positionne", "cojunt", "establec", "ajust", "pone ");
-		$tab_lumiere = array("lumie", "lumin", "lustre", "lamp", "spot", "veilleuse", "light", "luz", "lampara");
+		// PERIPHERIQUES
+		$tab_lumiere = array("lumie", "lumin", "lustre", "ambiance", "lamp", "spot", "veilleuse", "light", "luz", "lampara", "allume", "etein");
 		$tab_volet = array("volet", "VR", "shutter", "persiana");
 		$tab_temperature = array("tempera", "thermostat", "termostat", "combien il fait", "combien fait-il", "degre");
 		$tab_tv = array("tv", "televis", "la tele", "box", "chaine", "channel", "canal");
 		$tab_radio = array("radio", "frequenc");
+		$tab_ambiance = array("ambiance", "ambience", "ambiente", "atmospher", "atmosfer");
 		$tab_ouvrant = array("porte", "portail", "portill", "fenetr", "velux", "puerta", "ventana", "portal");
 		$tab_alarme = array("alarm", "intrusion");
+		// PIECES
+		$tab_pieces_fr = array(1 => "petit salon", 2 => "grand salon", 3 => "salon", 104 => "chambre des parents", 105 => "chambre des enfants", 106 => "chambre 1", 107 => "chambre 2", 108 => "chambre 3", 109 => "chambre 4", 110 => "chambre d'ami", 
+						     111 => "cuisine exterieure", 112 => "cuisine d'ete", 113 => "cuisine annexe", 114 => "salle a manger", 115 => "salle de reception",
+							 116 => "buanderie", 117 => "lingerie", 118 => "cave", 19 => "sous-sol", 20 => "hall d'entree", 221 => "toilettes", 222 => "wc", 123 => "salle de bain", 124 => "salle de douche",
+							 25 => "bureau", 326 => "escalier", 27 => "grenier", 28 => "porche", 29 => "balcon", 130 => "chambre", 31 => "garage", 32 => "jardin", 133 => "terrasse", 134 => "veranda", 335 => "annexe", 136 => "cuisine",
+							 137 => "entree", 38 => "hall", 39 => "dressing", 140 => "salle d'eau", 141 => "dépendance", 342 => "abri de jardin", 43 => "atelier", 44 => "etage");
+							 
+		$tab_pieces_en = array(1 => "living room", 3 => "living", 104 => "parent's room", 105 => "children's room", 106 => "bedroom 1", 107 => "bedroom 2", 108 => "bedroom 3", 109 => "bedroom 4", 110 => "guest room", 
+						     111 => "outdoor kitchen", 112 => "summer kitchen", 113 => "annex kitchen", 114 => "dining room", 115 => "reception room",
+							 116 => "laundry room", 117 => "laundry", 118 => "cellar", 19 => "basement", 20 => "lobby", 221 => "toilets", 123 => "bathroom", 124 => "shower room",
+							 25 => "office", 326 => "stairs", 27 => "attic", 28 => "porch", 29 => "balcony", 130 => "bedroom", 31 => "garage", 32 => "garden", 133 => "terrace", 134 => "veranda", 335 => "annex", 136 => "kitchen",
+							 137 => "entrance", 38 => "hall", 39 => "dressing room", 40 => "dressing", 141 => "outhouse", 342 => "garden shed", 44 => "floor");
+							 
+		$tab_pieces_es = array(1 => "living", 3 => "sala de estar", 104 => "habitacion de los padres", 105 => "habitacion de los ninos", 6 => "dormitorio 1", 7 => "dormitorio 2", 8 => "dormitorio 3", 9 => "dormitorio 4", 
+							 10 => "cuarto de invitados" ,11 => "cuarto de huespedes", 110 => "habitacion de invitados", 
+						     112 => "cocina de verano", 113 => "cocina anexo", 14 => "comedor", 115 => "sala de recepcion",
+							 16 => "lavadero", 118 => "bodega", 19 => "sotano", 20 => "lobby", 221 => "banos", 22 => "bano", 
+							 125 => "oficina", 276 => "escaleras", 27 => "atico", 28 => "porche", 29 => "balcon", 130 => "habitacion", 31 => "garaje", 32 => "jardin", 133 => "terraza", 335 => "anexo", 136 => "cocina",
+							 137 => "entrada", 38 => "vestibulo", 39 => "vestidor", 40 => "dressing", 141 => "letrina", 342 => "cobertizo del jardin", 43 => "taller", 44 => "piso");
+							 
+		$tab_artpieces_fr = array(1 => " dans le ", 100 => " dans la ", 200 => " dans les ", 300 => " dans l'");
+		$tab_artpieces_en = array(1 => " in the ");
+		$tab_artpieces_es = array(1 => " en el ", 100 => " en la ", 200 => " en los ", 250 => " en las ", 300 => " en el ");
+		
 		// Réponses interprétées
 		$tab_reponses_lumiere_fr = array("start" => "J'allume ", "stop" => "J'éteins ", "open" => "J'allume ", "close" => "J'éteins ", "get" => "L'état de la lumière est ", "set" => "Je règle la luminosité à ");
 		$tab_reponses_lumiere_en = array("start" => "I turn on the light ", "stop" => "I turn the light off ", "open" => "I turn on the light ", "close" => "I turn the light off ", "get" => "The light is ", "set" => "I adjust the brightness to ");
@@ -141,7 +167,7 @@
 		
 		$tab_reponses_alarme_fr = array("start" => "J'active l'alarme ", "stop" => "Je désactive l'alarme", "open" => "", "close" => "", "get" => "L'alarme est ", "set" => "");
 		$tab_reponses_alarme_en = array("start" => "I activate the alarm ", "stop" => "I disable the alarm ", "open" => "", "close" => "", "get" => "Alarm is ", "set" => "");
-		$tab_reponses_alarme_es = array("start" => "Activo la alarma ", "stop" => "Desactivo la alarma", "open" => "", "close" => "", "get" => "La alarma está ", "set" => "");
+		$tab_reponses_alarme_es = array("start" => "Activo la alarma ", "stop" => "Desactivo la alarma", "open" => "", "close" => "", "get" => "La alarma esta ", "set" => "");
 		
 		$tab_reponses_tv_fr = array("start" => "J'allume la télévision ", "stop" => "J'éteins la télévision", "open" => "Je monte le volume ", "close" => "Je baisse le volume ", "get" => "TV - ", "set" => "");
 		$tab_reponses_tv_en = array("start" => "I turn on the TV ", "stop" => "I turn off the TV ", "open" => "I turn up the volume ", "close" => "I lower the volume ", "get" => "TV - ", "set" => "");
@@ -150,6 +176,10 @@
 		$tab_reponses_radio_fr = array("start" => "J'allume la radio ", "stop" => "J'éteins la radio", "open" => "Je monte le volume ", "close" => "Je baisse le volume ", "get" => "Radio - ", "set" => "");
 		$tab_reponses_radio_en = array("start" => "I turn on the radio ", "stop" => "I turn off the radio ", "open" => "I turn up the volume ", "close" => "I lower the volume ", "get" => "Radio - ", "set" => "");
 		$tab_reponses_radio_es = array("start" => "Enciendo la radio ", "stop" => "Apago la radio ", "open" => "Subo el volumen ", "close" => "Baje el volumen ", "get" => "Radio - ", "set" => "");
+		
+		$tab_reponses_ambiance_fr = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "L'ambiance est ", "set" => "Je mets l'ambiance ");
+		$tab_reponses_ambiance_en = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Ambience is ", "set" => "I set ambience to ");
+		$tab_reponses_ambiance_es = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Ambiente esta", "set" => "Puse en la atmosfera ");
 		
 		// **************************************
 		// reglage de la langue
@@ -169,6 +199,9 @@
 		$tab_reponses_alarme = $tab_reponses_alarme_fr;
 		$tab_reponses_tv = $tab_reponses_tv_fr;
 		$tab_reponses_radio = $tab_reponses_radio_fr;
+		$tab_reponses_ambiance = $tab_reponses_ambiance_fr;
+		$tab_pieces = $tab_pieces_fr;
+		$tab_artpieces = $tab_artpieces_fr;
 		if ($lang == "en") {
 			$tab_nack = $tab_nack_en;
 			$tab_ack = $tab_ack_en;
@@ -186,6 +219,9 @@
 			$tab_reponses_alarme = $tab_reponses_alarme_en;
 			$tab_reponses_tv = $tab_reponses_tv_en;
 			$tab_reponses_radio = $tab_reponses_radio_en;
+			$tab_reponses_ambiance = $tab_reponses_ambiance_en;
+			$tab_pieces = $tab_pieces_en;
+			$tab_artpieces = $tab_artpieces_en;
 		}
 		if ($lang == "es") {
 			$tab_nack = $tab_nack_es;
@@ -204,6 +240,9 @@
 			$tab_reponses_alarme = $tab_reponses_alarme_es;
 			$tab_reponses_tv = $tab_reponses_tv_es;
 			$tab_reponses_radio = $tab_reponses_radio_es;
+			$tab_reponses_ambiance = $tab_reponses_ambiance_es;
+			$tab_pieces = $tab_pieces_es;
+			$tab_artpieces = $tab_artpieces_es;
 		}
 		
 		// Vérifie que le plugin Notification est effectif pour répondre
@@ -240,7 +279,7 @@
 			$input = strtolower(sdk_noaccent($tab_input['value']));
 			if ($input != "" && $input != "--") {
 				$input_ok = true;
-				setValue($api_input, "--");
+				//setValue($api_input, "--");
 			}
 		}
 		$output_ok = false;
@@ -269,6 +308,7 @@
 				$valuetoset = loadVariable("CHATBOT_CHKVAL_".$numchat);
 				$actiontoset = loadVariable("CHATBOT_CHKACT_".$numchat);
 				$txt_reponse = loadVariable("CHATBOT_CHKREP_".$numchat);
+				$piecelue = loadVariable("CHATBOT_CHKPIE_".$numchat);
 				if ($actiontoset == "get") { // get
 					// GET
 					if (is_numeric($apitoset) && $apitoset > 1) {
@@ -279,7 +319,7 @@
 							$request_text = $request_value;
 						}
 						
-						$newnotif = sdk_notification($txt_reponse.$request_text);
+						$newnotif = sdk_notification($txt_reponse.$request_text.$piecelue);
 					} else {
 						if ($isdebug == 1) {
 							$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -295,7 +335,7 @@
 							$valuetoset = $matches[1];
 							if ($valuetoset != "") {
 								if ($txt_reponse != "") {
-									$newnotif = sdk_notification($txt_reponse.$valuetoset);
+									$newnotif = sdk_notification($txt_reponse.$valuetoset.$piecelue);
 								} else {
 									$ack = sdk_ack("","");
 								}
@@ -327,7 +367,7 @@
 					if (is_numeric($apitoset) && $apitoset > 1 && $valuetoset != "") {
 						setValue($apitoset, $valuetoset);
 						if ($txt_reponse != "") {
-							$newnotif = sdk_notification($txt_reponse);
+							$newnotif = sdk_notification($txt_reponse.$piecelue);
 						} else {
 							$ack = sdk_ack("","");
 						}
@@ -348,12 +388,14 @@
 			saveVariable("CHATBOT_CHKVAL_".$numchat, "");
 			saveVariable("CHATBOT_CHKACT_".$numchat, "");
 			saveVariable("CHATBOT_CHKREP_".$numchat, "");
+			saveVariable("CHATBOT_CHKPIE_".$numchat, "");
 		  } else {
 			// interpretation de l'input
 			// recherche de l'action
 			$actionlue = "";
 			$periphlu = "";
 			$piecelue = "";
+			$piece = false;
 			$desactiver = false;
 			$activer = false;
 			$get = false;
@@ -367,7 +409,7 @@
 			$alarme = false;
 			$tv = false;
 			$radio = false;
-			
+			$ambiance = false;
 			
 			// ACTION
 			foreach($tab_get As $tab_get_value) {
@@ -425,24 +467,17 @@
 			}
 			//*************************************************************************
 			// PERIPHERIQUES
-			foreach($tab_lumiere As $tab_lumiere_value) {
-				if (strpos($input, $tab_lumiere_value) !== false) {
-					$lumiere = true;
-					$periphlu = "light|lumiere|luz";
-					break;
-				}
-			}
-			if (!$lumiere) {
-				foreach($tab_volet As $tab_volet_value) {
+			
+			foreach($tab_volet As $tab_volet_value) {
 					if (strpos($input, $tab_volet_value) !== false) {
 						$volet = true;
 						$periphlu = "shutter|volet|persiana";
 						break;
 					}
-				}
 			}
 			
-			if (!$lumiere && !$volet) {
+			
+			if (!$volet) {
 				foreach($tab_temperature As $tab_temperature_value) {
 					if (strpos($input, $tab_temperature_value) !== false) {
 						$temperature = true;
@@ -452,7 +487,7 @@
 				}
 			}
 			
-			if (!$lumiere && !$volet && !$temperature) {
+			if (!$volet && !$temperature) {
 				foreach($tab_ouvrant As $tab_ouvrant_value) {
 					if (strpos($input, $tab_ouvrant_value) !== false) {
 						$ouvrant = true;
@@ -462,7 +497,7 @@
 				}
 			}
 			
-			if (!$lumiere && !$volet && !$temperature && !$ouvrant) {
+			if (!$volet && !$temperature && !$ouvrant) {
 				foreach($tab_alarme As $tab_alarme_value) {
 					if (strpos($input, $tab_alarme_value) !== false) {
 						$alarme = true;
@@ -472,7 +507,7 @@
 				}
 			}
 			
-			if (!$lumiere && !$volet && !$temperature && !$ouvrant && !$alarme) {
+			if (!$volet && !$temperature && !$ouvrant && !$alarme) {
 				foreach($tab_tv As $tab_tv_value) {
 					if (strpos($input, $tab_tv_value) !== false) {
 						$tv = true;
@@ -481,7 +516,7 @@
 					}
 				}
 			}
-			if (!$lumiere && !$volet && !$temperature && !$ouvrant && !$alarme && !$tv) {
+			if (!$volet && !$temperature && !$ouvrant && !$alarme && !$tv) {
 				foreach($tab_radio As $tab_radio_value) {
 					if (strpos($input, $tab_radio_value) !== false) {
 						$radio = true;
@@ -490,10 +525,43 @@
 					}
 				}
 			}
+			if (!$volet && !$temperature && !$ouvrant && !$alarme && !$tv && !$radio) {
+				foreach($tab_ambiance As $tab_ambiance_value) {
+					if (strpos($input, $tab_ambiance_value) !== false) {
+						$ambiance = true;
+						$periphlu = "ambiance|ambience|ambiente";
+						break;
+					}
+				}
+			}
+			if (!$volet && !$temperature && !$ouvrant && !$alarme && !$tv && !$radio && !$ambiance) {
+				foreach($tab_lumiere As $tab_lumiere_value) {
+					if (strpos($input, $tab_lumiere_value) !== false) {
+						$lumiere = true;
+						$periphlu = "light|lumiere|luz";
+						break;
+					}
+				}
+			}
+			// PIECE pour réponse
+			foreach($tab_pieces As $tab_piece_key => $tab_piece_value) {
+				if (strpos($input, $tab_piece_value) !== false) {
+					$piece = true;
+					$piecelue = $tab_piece_value;
+					$articlelu = "";
+					foreach($tab_artpieces As $tab_artpiece_key => $tab_artpiece_value) {
+						if ($tab_piece_key >= $tab_artpiece_key) {
+							$articlelu = $tab_artpiece_value;
+						}
+					}
+					$piecelue = $articlelu.$piecelue;
+					break;
+				}
+			}
 			// Action trouvée, recherche paramètre correspondant
 			$debug = "";
 			if ($activer || $desactiver || $get || $ouvrir || $fermer || $set) {
-			  $debug = "Action ".$actionlue;
+			  $debug = $actionlue;
 			  if (count($param_action) > 0) {
 				
 				$needmdp = false;
@@ -504,10 +572,10 @@
 				$txt_reponse = "";
 				for($iparam = 1; $iparam <= count($param_action); $iparam++) {
 					if ($param_action[$iparam] == $actionlue) {
-						$debug .= " Act";
+						$debug .= " A ";
 						// Le paramètre correspond à l'action demandée
 						if (strpos($periphlu, $param_periph[$iparam]) !== false) {
-							$debug .= " Periph";
+							$debug .= " P ";
 							if ($periphlu == "light|lumiere|luz") {
 								$txt_reponse = $tab_reponses_lumiere[$actionlue];
 							}
@@ -529,9 +597,12 @@
 							if ($periphlu == "radio") {
 								$txt_reponse = $tab_reponses_radio[$actionlue];
 							}
+							if ($periphlu == "ambiance|ambience|ambiente") {
+								$txt_reponse = $tab_reponses_ambiance[$actionlue];
+							}
 							// Le paramètre correspond au périphérique demandé
 							if (strpos($input, $param_piece[$iparam]) !== false || $param_piece[$iparam] == "") {
-								$debug .= " Piece";
+								$debug .= " R ";
 								// Le paramètre correspond à la pièce demandée
 								$understood = true;
 								$apitoset = $param_api[$iparam];
@@ -540,7 +611,7 @@
 									// demande de confirmation par mdp
 									$needmdp = true;
 									$needmdp_value = $param_mdp[$iparam];
-									$debug .= " Mdp";
+									$debug .= " M ";
 								}
 								break;
 							}
@@ -554,6 +625,7 @@
 					saveVariable("CHATBOT_CHKVAL_".$numchat, $valuetoset);
 					saveVariable("CHATBOT_CHKACT_".$numchat, $actionlue);
 					saveVariable("CHATBOT_CHKREP_".$numchat, $txt_reponse);
+					saveVariable("CHATBOT_CHKPIE_".$numchat, $piecelue);
 					$newnotif = sdk_notification($mdp_text);
 				} else { // il n'y a pas de demande de mot de passe
 				
@@ -576,7 +648,7 @@
 								}
 								
 								//
-								$newnotif = sdk_notification($txt_reponse.$request_text);
+								$newnotif = sdk_notification($txt_reponse.$request_text.$piecelue);
 							} else {
 								if ($isdebug == 1) {
 									$newnotif = sdk_notification($noapi_text."(".$debug.")");
@@ -588,15 +660,15 @@
 							$debug .= " ".$apitoset;
 							if (is_numeric($apitoset) && $apitoset > 1) {
 								// cherche la valeur donnée de l'input à positionner
-								$pattern = '/.+(de|à|a|sur|to|en|channel|chaine|canal|radio) +([0-9]+(\.|,|°|%)*[0-9]*) */'; // valeur numérique après le mot "de, à, a, sur, to, en"
-								$pattern2 = '/.+(de|à|a|sur|to|en|channel|chaine|canal|radio) +([a-zA-Z]+)/'; // valeur non numérique en fin de phrase après le mot "de, à, a, sur, to, en"
+								$pattern = '/.+[ |\'](de|à|a|sur|to|en|channel|chaine|canal|radio|ambiance|ambience|ambiente) +([0-9]+(\.|,|°|%)*[0-9]*) */'; // valeur numérique après le mot "de, à, a, sur, to, en"
+								$pattern2 = '/.+[ |\'](de|à|a|sur|to|en|channel|chaine|canal|radio|ambiance|ambience|ambiente) +([a-zA-Z0-9]+)/'; // valeur non exclusivement numérique après le mot "de, à, a, sur, to, en"
 								if (preg_match($pattern, $input, $matches) == 1) { 
 									// valeur numérique
 									$valuetoset = $matches[2];
 									$debug .= " REGEX1 ".$matches[2];
 									if ($valuetoset != "") {
 										if ($txt_reponse != "") {
-											$newnotif = sdk_notification($txt_reponse.$valuetoset);
+											$newnotif = sdk_notification($txt_reponse.$valuetoset.$piecelue);
 										} else {
 											$ack = sdk_ack("","");
 										}
@@ -615,7 +687,7 @@
 									$debug .= " REGEX2 ".$matches[2];
 									if ($valuetoset != "") {
 										if ($txt_reponse != "") {
-											$newnotif = sdk_notification($txt_reponse.$valuetoset);
+											$newnotif = sdk_notification($txt_reponse.$valuetoset.$piecelue);
 										} else {
 											$ack = sdk_ack("","");
 										}
@@ -649,7 +721,7 @@
 							if (is_numeric($apitoset) && $apitoset > 1 && $valuetoset != "") {
 								setValue($apitoset, $valuetoset);
 								if ($txt_reponse != "") {
-									$ack = sdk_notification($txt_reponse);
+									$ack = sdk_notification($txt_reponse.$piecelue);
 								} else {
 									$ack = sdk_ack("","");
 								}
@@ -674,7 +746,10 @@
 			  }
 			} else if ($input == "!!(o_o)!!" || $input == "init") { 
 				  $newnotif = sdk_notification("RocknRoll");
-			
+			} else if ($input == "version") { 
+				  $newnotif = sdk_notification("eedomus chatBOT #".$numchat." ".$version);
+			} else if ($input == "test") { 
+				  $newnotif = sdk_notification("eedomus chatBOT #".$numchat." (".$lang.") TEST 1 2 1 2");
 			} else {	// action non reconnue parmi $activer || $desactiver || $get || $ouvrir || $fermer || $set
 				if ($isdebug == 1) {
 					$nack = sdk_nack("",$debug."(".$input.")");

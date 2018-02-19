@@ -2,9 +2,9 @@
 	"plugin_id": "chatbot",
 	"name_fr": "chatBOT",
 	"icon": "chatbot.png",
-	"version": "1.05",
+	"version": "1.12",
 	"creation_date": "2018-01-30",
-	"modification_date": "2018-02-16",
+	"modification_date": "2018-02-19",
 	"author": "Influman",
 	"description_fr": "ChatBOT. Interagissez avec eedomus",
 	"description_en": "",
@@ -30,7 +30,7 @@
         },
 		{
 			"parameter": "notif", 
-			"description": "Plugin Notification (Telegram, FreeSMS...)",
+			"description": "Plugin Notification compatible (IFTTT, Telegram, FreeSMS...)",
 			"xtype": "combo",
 			"field": "store : getCombo('/json/list_all.php?actuator_only=1'), displayField: 'label', valueField: 'id', triggerAction: 'all', selectOnFocus: true, editable: false, shadow:true, mode: 'local', width: 250, listWidth: 300, allowBlank: true"
 		}
@@ -93,7 +93,7 @@
 				"ignore_errors": 1,
 				"RAW_URL": "http://localhost/script/?exec=chatbot.php&action=input&value=&notif=[VAR1]&output=[VAR2]&lang=[VAR3]&num=plugin.parameters.num",
 				"RAW_XPATH": "/CHATBOT/INPUT",
-				"POLLING": "2"
+				"POLLING": "5"
 			}
 		},
 		{
@@ -122,8 +122,7 @@
         "name_fr": "chatBOT #plugin.parameters.num - Détection INPUT",
         "criterias":
         [
-          { "device_id": "plugin.devices.input", "type": "c"  },
-		  { "device_id": "plugin.devices.input", "type": "e", "criteria": "!=", "target": "--"  }
+          { "device_id": "plugin.devices.input", "type": "t", "criteria": "!=", "target": "--"  }
 		],
         "actions":
         [
