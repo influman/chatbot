@@ -139,7 +139,12 @@ En cas de mise à jour ou réinstallation du plugin, il faudra une première exécut
 Donnez dans ce cas l'input "init" par exemple.  
 
 En cas de mise à jour des paramètres d'interpretation, il faut un polling du capteur "Input" pour que les mises à jour soient prises en compte.  
-
+  
+  
+Influman 2018  
+therealinfluman@gmail.com  
+[Paypal Me](https://www.paypal.me/influman "paypal.me")  
+  
 
 
 
