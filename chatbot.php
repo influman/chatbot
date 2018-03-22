@@ -110,7 +110,7 @@
 		// MOTS CLES
 		// ACTIONS
 		$tab_desactiver = array("desactive", "etein", "stop", "coupe", "cut", "turn off", "switch off", "apaga", "desconect");
-		$tab_activer = array("active", "allume", "actionne", "retabli", "illumin", "verrouill", "enclenche", "declenche", "turn on", "switch on", "start", "enciende", "encender");
+		$tab_activer = array("active", "allume", "actionne", "retabli", "illumin", "verrouill", "enclenche", "declenche", "demarre", "prend", "take", "toma", "turn on", "switch on", "start", "enciende", "encender");
 		$tab_ouvrir = array("ouvre", "monte", "open", " up", "haut", "abrir", "abre");
 		$tab_fermer = array("ferme", "descen", "baisse", "close", "down", "bas", "cierra", "cerrar");
 		$tab_get = array("quel", "donne", "dit", "combien", "comment", "what", "est-il", "est-elle", "tell", "give", "how much", "get", "cual es", "dime", "cuanto", "que es");
@@ -124,6 +124,7 @@
 		$tab_ambiance = array("ambiance", "ambience", "ambiente", "atmospher", "atmosfer");
 		$tab_ouvrant = array("porte", "portail", "portill", "fenetr", "velux", "puerta", "ventana", "portal");
 		$tab_alarme = array("alarm", "intrusion");
+		$tab_camera = array("camera", "visiophone", "photo", "picture", "camara", "cam", "snapshot", "foto");
 		// PIECES
 		$tab_pieces_fr = array(1 => "petit salon", 2 => "grand salon", 3 => "salon", 104 => "chambre des parents", 105 => "chambre des enfants", 106 => "chambre 1", 107 => "chambre 2", 108 => "chambre 3", 109 => "chambre 4", 110 => "chambre d'ami", 
 						     111 => "cuisine exterieure", 112 => "cuisine d'ete", 113 => "cuisine annexe", 114 => "salle a manger", 115 => "salle de reception",
@@ -181,6 +182,9 @@
 		$tab_reponses_ambiance_en = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Ambience is ", "set" => "I set ambience to ");
 		$tab_reponses_ambiance_es = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Ambiente esta", "set" => "Puse en la atmosfera ");
 		
+		$tab_reponses_camera_fr = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "La caméra est ", "set" => "");
+		$tab_reponses_camera_en = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "Cam is ", "set" => "");
+		$tab_reponses_camera_es = array("start" => "", "stop" => "", "open" => "", "close" => "", "get" => "La camara esta ", "set" => "");
 		// **************************************
 		// reglage de la langue
 		$tab_nack = $tab_nack_fr;
@@ -200,8 +204,10 @@
 		$tab_reponses_tv = $tab_reponses_tv_fr;
 		$tab_reponses_radio = $tab_reponses_radio_fr;
 		$tab_reponses_ambiance = $tab_reponses_ambiance_fr;
+		$tab_reponses_camera = $tab_reponses_camera_fr;
 		$tab_pieces = $tab_pieces_fr;
 		$tab_artpieces = $tab_artpieces_fr;
+		
 		if ($lang == "en") {
 			$tab_nack = $tab_nack_en;
 			$tab_ack = $tab_ack_en;
@@ -220,6 +226,7 @@
 			$tab_reponses_tv = $tab_reponses_tv_en;
 			$tab_reponses_radio = $tab_reponses_radio_en;
 			$tab_reponses_ambiance = $tab_reponses_ambiance_en;
+			$tab_reponses_camera = $tab_reponses_camera_en;
 			$tab_pieces = $tab_pieces_en;
 			$tab_artpieces = $tab_artpieces_en;
 		}
@@ -241,6 +248,7 @@
 			$tab_reponses_tv = $tab_reponses_tv_es;
 			$tab_reponses_radio = $tab_reponses_radio_es;
 			$tab_reponses_ambiance = $tab_reponses_ambiance_es;
+			$tab_reponses_camera = $tab_reponses_camera_es;
 			$tab_pieces = $tab_pieces_es;
 			$tab_artpieces = $tab_artpieces_es;
 		}
@@ -410,6 +418,7 @@
 			$tv = false;
 			$radio = false;
 			$ambiance = false;
+			$camera = false;
 			
 			// ACTION
 			foreach($tab_get As $tab_get_value) {
@@ -543,6 +552,15 @@
 					}
 				}
 			}
+			if (!$volet && !$temperature && !$ouvrant && !$alarme && !$tv && !$radio && !$ambiance && !$lumiere) {
+				foreach($tab_camera As $tab_camera_value) {
+					if (strpos($input, $tab_camera_value) !== false) {
+						$camera = true;
+						$periphlu = "camera|camara|photo|foto|picture";
+						break;
+					}
+				}
+			}
 			// PIECE pour réponse
 			foreach($tab_pieces As $tab_piece_key => $tab_piece_value) {
 				if (strpos($input, $tab_piece_value) !== false) {
@@ -599,6 +617,9 @@
 							}
 							if ($periphlu == "ambiance|ambience|ambiente") {
 								$txt_reponse = $tab_reponses_ambiance[$actionlue];
+							}
+							if ($periphlu == "camera|camara|photo|foto|picture") {
+								$txt_reponse = $tab_reponses_camera[$actionlue];
 							}
 							// Le paramètre correspond au périphérique demandé
 							if (strpos($input, $param_piece[$iparam]) !== false || $param_piece[$iparam] == "") {

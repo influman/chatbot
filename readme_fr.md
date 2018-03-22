@@ -90,7 +90,7 @@ Le plugin est installé avec des exemples de valeurs prédéfinies.
 Une interpretation doit être paramétrée dans l'ordre suivant, chaque critère séparé d'une virgule, parmi la liste de valeurs suivantes :  
 
   * L'action : Start ou Stop ou Open ou Close ou Get ou Set
-  * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio ou Ambiance
+  * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio ou Ambiance ou Camera
   * Un mot clé discriminant : par exemple la pièce (non obligatoire)
   * Le code API du périphérique à actionner/interroger
   * La valeur à positionner (si périphérique actionné, vide si GET ou SET)
@@ -100,6 +100,7 @@ Exemples (avec question Telegram) :
   
   * Start,Lumière,Salon,123456,100 : Positionnera le périphérique 123456 à 100 à la demande "#ee allume la lampe du salon" par exemple  
   * Start,Television,,334455,1 : Positionne le périphérique 334455 à 1 à la demande "#ee allume la télé" par exemple  
+  * Start,Camera,Jardin,777777,1 : Positionne le périphérique 777777 à 1 à la demande "#ee prend une photo du jardin" par exemple  
   * Stop,Lumière,Salon,123456,0 : Positionnera le périphérique 123456 à 0 à la demande "#ee éteind la lumière du salon" par exemple  
   * Open,Volet,Salon,888888,2 : Périphérique 888888 à 2 à la question "#ee Ouvre le volet du salon"  
   * Close,Television,,334455,10 : Périphérique 334455 à 10 à la question "#ee baisse la tv"  par exemple  

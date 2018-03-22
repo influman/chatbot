@@ -2,11 +2,11 @@
 	"plugin_id": "chatbot",
 	"name_fr": "chatBOT",
 	"icon": "chatbot.png",
-	"version": "1.13",
+	"version": "1.14",
 	"creation_date": "2018-01-30",
-	"modification_date": "2018-03-30",
+	"modification_date": "2018-03-22",
 	"author": "Influman",
-	"description_fr": "ChatBOT. Interagissez avec eedomus",
+	"description_fr": "ChatBOT. Interagissez avec eedomus en langage naturel",
 	"description_en": "",
 	"description_es": "",
 	"description_it": "",
@@ -48,7 +48,7 @@
 			"module_id": "41",
 			"type": "http",
 			"name_fr": "chatBOT #plugin.parameters.num - Paramètres",
-			"icon": "chatbot.png",
+			"icon": "chatbot_param.png",
 			"utilisation_id": "43",
 			"parameters":
 			{
@@ -64,15 +64,16 @@
 			"values":
 			[
 				{ "value": "0", "description": "~(o_o)~", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "&action=request&value=[RAW_VALUE]&notif=[VAR1]&output=[VAR2]&lang=[VAR3]&num=plugin.parameters.num" },
-				{ "value": "1", "description": "Start,Lumière,Salon,API,100", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "2", "description": "Stop,Lumière,Salon,API,0", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "10", "description": "Open,Volet,Salon,API,2", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "11", "description": "Close,Volet,Salon,API,3", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "20", "description": "Get,Température,Salon,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "21", "description": "Get,Porte,Test,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "30", "description": "Get,Alarme,,API,,password", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "31", "description": "Start,Alarme,,API,3,password", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
-				{ "value": "40", "description": "Set,Température,Salon,API", "hidden":1, "icon": "chatbot.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" }
+				{ "value": "1", "description": "Start,Lumière,Salon,API,100", "hidden":1, "icon": "chatbot_light.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "2", "description": "Stop,Lumière,Salon,API,0", "hidden":1, "icon": "chatbot_light.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "10", "description": "Open,Volet,Salon,API,2", "hidden":1, "icon": "chatbot_door.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "11", "description": "Close,Volet,Salon,API,3", "hidden":1, "icon": "chatbot_door.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "20", "description": "Get,Température,Salon,API", "hidden":1, "icon": "chatbot_temp.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "21", "description": "Get,Porte,Test,API", "hidden":1, "icon": "chatbot_door.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "30", "description": "Get,Alarme,,API,,password", "hidden":1, "icon": "chatbot_alarm.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "31", "description": "Start,Alarme,,API,3,password", "hidden":1, "icon": "chatbot_alarm.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "40", "description": "Set,Température,Salon,API", "hidden":1, "icon": "chatbot_temp.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" },
+				{ "value": "50", "description": "Start,Camera,,API,1", "hidden":1, "icon": "chatbot_cam.png", "http_url": "http://localhost/script/?exec=chatbot.php", "http_type": "GET",  "http_params": "" }
 				
 			]
 		},
@@ -82,7 +83,7 @@
 			"module_id": "51",
 			"type": "http",
 			"name_fr": "chatBOT #plugin.parameters.num - Input",
-			"icon": "chatbot.png",
+			"icon": "chatbot_input.png",
 			"utilisation_id": "35",
 			"parameters":
 			{
@@ -101,7 +102,7 @@
 			"parent_id": "chatbot",
 			"module_id": "11",
 			"name_fr": "chatBOT #plugin.parameters.num - Output",
-			"icon": "chatbot.png",
+			"icon": "chatbot_output.png",
 			"utilisation_id": "35",
 			"parameters":
 			{
