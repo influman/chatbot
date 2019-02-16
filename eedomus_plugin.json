@@ -2,9 +2,9 @@
 	"plugin_id": "chatbot",
 	"name_fr": "chatBOT",
 	"icon": "chatbot.png",
-	"version": "1.14",
+	"version": "1.2",
 	"creation_date": "2018-01-30",
-	"modification_date": "2018-03-22",
+	"modification_date": "2019-02-12",
 	"author": "Influman",
 	"description_fr": "ChatBOT. Interagissez avec eedomus en langage naturel",
 	"description_en": "",
@@ -59,7 +59,7 @@
 				"ignore_errors": 3,
 				"RAW_URL": "",
 				"RAW_XPATH": "",
-				"POLLING": "0"
+				"POLLING": ""
 			},
 			"values":
 			[
@@ -94,7 +94,7 @@
 				"ignore_errors": 1,
 				"RAW_URL": "http://localhost/script/?exec=chatbot.php&action=input&value=&notif=[VAR1]&output=[VAR2]&lang=[VAR3]&num=plugin.parameters.num",
 				"RAW_XPATH": "/CHATBOT/INPUT",
-				"POLLING": "5"
+				"POLLING": "30"
 			}
 		},
 		{

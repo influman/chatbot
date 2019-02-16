@@ -1,7 +1,8 @@
 <?php
    $xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>";      
    //***********************************************************************************************************************
-    $version = "v1.12 - 2018/02/19";
+    $version = "v1.2 - 2019/02/12";
+	$author = "Influman - therealinfluman@gmail.com";
 	// recuperation des infos depuis la requete
     $value = getArg("value");
 	$action = getArg("action");
@@ -10,72 +11,10 @@
 	$periph_id = getArg('eedomus_controller_module_id'); 
 	$api_output = getArg("output");
 	$lang = getArg("lang");
-	$isdebug = getArg("debug",$mandatory = false);
+	$isdebug = getArg("debug",false);
 	
 	// enregistrement auto du code api input par son capteur
 	if ($action == "input") {
-		$xml .= "<CHATBOT>".
-		saveVariable("CHATBOT_INPUT_API_".$numchat, $periph_id);
-		// récupère les paramètres des actions chatbot
-		$param_action = array();
-		$param_periph = array();
-		$param_piece = array();
-		$param_api = array();
-		$param_value = array();
-		$param_mdp = array();
-		$preload = loadVariable("CHATBOT_API_".$numchat);
-		if ($preload != '' && substr($preload, 0, 8) != "## ERROR") {
-			$iparam = 0;
-			
-			$chatbot_api = $preload;
-			$tab_param_list = getPeriphValueList($chatbot_api);
-			foreach($tab_param_list As $tab_param_value) {
-				if ($tab_param_value["value"] > 0) {
-					$param_lu = explode(",",strtolower(sdk_noaccent($tab_param_value["state"])));
-					$iparam++;
-					$param_action[$iparam] = $param_lu[0];
-					$param_periph[$iparam] = $param_lu[1];
-					$param_piece[$iparam] = $param_lu[2];
-					$param_api[$iparam] = $param_lu[3];
-					if (count($param_lu) > 4) {
-						$param_value[$iparam] = $param_lu[4];
-					} else {
-						$param_value[$iparam] = "";
-					}
-					if (count($param_lu) > 5) {
-						$param_mdp[$iparam] = $param_lu[5];
-					} else {
-						$param_mdp[$iparam] = "";
-					}
-				}
-			}
-			saveVariable("CHATBOT_PARAM_ACTION_".$numchat, $param_action);
-			saveVariable("CHATBOT_PARAM_PERIPH_".$numchat, $param_periph);
-			saveVariable("CHATBOT_PARAM_PIECE_".$numchat, $param_piece);
-			saveVariable("CHATBOT_PARAM_API_".$numchat, $param_api);
-			saveVariable("CHATBOT_PARAM_VALUE_".$numchat, $param_value);
-			saveVariable("CHATBOT_PARAM_MDP_".$numchat, $param_mdp);
-			for($iparam = 1; $iparam <= count($param_action); $iparam++) {
-				$xml .= "<PARAM_".$iparam.">".$param_action[$iparam].",".$param_periph[$iparam].",".$param_piece[$iparam].",".$param_api[$iparam].",".$param_value[$iparam].",".$param_mdp[$iparam]."</PARAM_".$iparam.">";
-			}
-			$xml .= "<MSG>CHATBOT ".$numchat."-".$chatbot_api."-".$iparam." params</MSG>";
-			$xml .= "<INPUT>--</INPUT></CHATBOT>";
-		} else {
-			if (is_numeric($api_output) && $api_output > 1) {
-				setValue($api_output, "(o_o)?");
-			}
-			$xml .= "<INPUT>!!(o_o)!!</INPUT></CHATBOT>";
-		}
-		
-		sdk_header('text/xml');
-		echo $xml;
-	} // fin input
-		
-	if ($action == "request") {
-		// enregistrement de l'API du chatBOT (Input y récupérera les paramètres)
-		saveVariable("CHATBOT_API_".$numchat, $periph_id);
-		// *****************************************************************************
-		
 		// DICTIONNAIRE CHATBOT ********************************************************
 		$tab_nack_fr = array(0 => "Oups, je n'ai pas compris", 1 => "Désolé je ne comprends pas", 2 => "Pour moi, c'est du charabia...", 3 => "???!!!", 4 => "Il y a un problème", 5 => "KO");
 		$tab_ack_fr  = array(0 => "Ok", 1 => "C'est parti", 2 => "Je fais ça", 3 => "Bien reçu", 4 => "L'action est en cours");
@@ -111,9 +50,11 @@
 		// ACTIONS
 		$tab_desactiver = array("desactive", "etein", "stop", "coupe", "cut", "turn off", "switch off", "apaga", "desconect");
 		$tab_activer = array("active", "allume", "actionne", "retabli", "illumin", "verrouill", "enclenche", "declenche", "demarre", "prend", "take", "toma", "turn on", "switch on", "start", "enciende", "encender");
+		$tab_lancer = array("lance", "launch", "init", "lanza", "inici");
+		$tab_diffuser = array("diffuse", "transmet", "dit", "transmis", "emiti", "cast", "say");
 		$tab_ouvrir = array("ouvre", "monte", "open", " up", "haut", "abrir", "abre");
 		$tab_fermer = array("ferme", "descen", "baisse", "close", "down", "bas", "cierra", "cerrar");
-		$tab_get = array("quel", "donne", "dit", "combien", "comment", "what", "est-il", "est-elle", "tell", "give", "how much", "get", "cual es", "dime", "cuanto", "que es");
+		$tab_get = array("quel", "donne", "combien", "comment", "what", "est-il", "est-elle", "tell", "give", "how much", "get", "cual es", "dime", "cuanto", "que es");
 		$tab_set = array("regle", "fixe", "defini", "met", "set ", "change", "positionne", "cojunt", "establec", "ajust", "pone ");
 		// PERIPHERIQUES
 		$tab_lumiere = array("lumie", "lumin", "lustre", "ambiance", "lamp", "spot", "veilleuse", "light", "luz", "lampara", "allume", "etein");
@@ -252,31 +193,105 @@
 			$tab_pieces = $tab_pieces_es;
 			$tab_artpieces = $tab_artpieces_es;
 		}
+		saveVariable("CHATBOT_DICO_NACK", $tab_nack);
+		saveVariable("CHATBOT_DICO_ACK", $tab_ack);
+		saveVariable("CHATBOT_DICO_MDP", $mdp_text);
+		saveVariable("CHATBOT_DICO_ATTAPI", $att_api_text);
+		saveVariable("CHATBOT_DICO_BADMDP", $bad_mdp_text);
+		saveVariable("CHATBOT_DICO_NOAPI", $noapi_text);
+		saveVariable("CHATBOT_DICO_UNITTEMP", $unit_temp_text);
+		saveVariable("CHATBOT_DICO_UNITLIGHT", $unit_light_text);
+		saveVariable("CHATBOT_DICO_ATTPARAM", $att_param_text);
+		saveVariable("CHATBOT_DICO_REPLUMIERE", $tab_reponses_lumiere);
+		saveVariable("CHATBOT_DICO_REPVOLET", $tab_reponses_volet);
+		saveVariable("CHATBOT_DICO_REPTEMP", $tab_reponses_temperature);
+		saveVariable("CHATBOT_DICO_REPOUVRANT", $tab_reponses_ouvrant);
+		saveVariable("CHATBOT_DICO_REPALARME", $tab_reponses_alarme);
+		saveVariable("CHATBOT_DICO_REPTV", $tab_reponses_tv);
+		saveVariable("CHATBOT_DICO_REPRADIO", $tab_reponses_radio);
+		saveVariable("CHATBOT_DICO_REPAMBIANCE", $tab_reponses_ambiance);
+		saveVariable("CHATBOT_DICO_REPCAMERA", $tab_reponses_camera);
+		saveVariable("CHATBOT_DICO_PIECES", $tab_pieces);
+		saveVariable("CHATBOT_DICO_ARTPIECES", $tab_artpieces);
+		saveVariable("CHATBOT_DICO_DESACTIVER", $tab_desactiver);
+		saveVariable("CHATBOT_DICO_ACTIVER", $tab_activer);
+		saveVariable("CHATBOT_DICO_LANCER", $tab_lancer);
+		saveVariable("CHATBOT_DICO_DIFFUSER", $tab_diffuser);
+		saveVariable("CHATBOT_DICO_OUVRIR", $tab_ouvrir);
+		saveVariable("CHATBOT_DICO_FERMER", $tab_fermer);
+		saveVariable("CHATBOT_DICO_GET", $tab_get);
+		saveVariable("CHATBOT_DICO_SET", $tab_set);
+		saveVariable("CHATBOT_DICO_LUMIERE", $tab_lumiere); 
+		saveVariable("CHATBOT_DICO_VOLET", $tab_volet); 
+		saveVariable("CHATBOT_DICO_TEMPERATURE", $tab_temperature);
+		saveVariable("CHATBOT_DICO_TV", $tab_tv);
+		saveVariable("CHATBOT_DICO_RADIO", $tab_radio);
+		saveVariable("CHATBOT_DICO_AMBIANCE", $tab_ambiance);
+		saveVariable("CHATBOT_DICO_OUVRANT", $tab_ouvrant);
+		saveVariable("CHATBOT_DICO_ALARME", $tab_alarme);
+		saveVariable("CHATBOT_DICO_CAMERA", $tab_camera);
 		
-		// Vérifie que le plugin Notification est effectif pour répondre
-		$notification = false;
-		if (is_numeric($notif) && $notif > 1) {
-			//$tab_notif = getPeriphValueList($notif);
-			//foreach($tab_notif As $tab_notif_value) {
-			//	if ($tab_notif_value["value"] == 9999) {
-					$notification = true; 
-			//		break;
-			//	}
-			//}
-		}
-		
-		// chargement des paramètres
+		$xml .= "<CHATBOT>".
+		saveVariable("CHATBOT_INPUT_API_".$numchat, $periph_id);
+		// récupère les paramètres des actions chatbot
 		$param_action = array();
-		$preload = loadVariable("CHATBOT_PARAM_ACTION_".$numchat);
+		$param_periph = array();
+		$param_piece = array();
+		$param_api = array();
+		$param_value = array();
+		$param_mdp = array();
+		$preload = loadVariable("CHATBOT_API_".$numchat);
 		if ($preload != '' && substr($preload, 0, 8) != "## ERROR") {
-			$param_action = $preload;
+			$iparam = 0;
+			
+			$chatbot_api = $preload;
+			$tab_param_list = getPeriphValueList($chatbot_api);
+			foreach($tab_param_list As $tab_param_value) {
+				if ($tab_param_value["value"] > 0) {
+					$param_lu = explode(",",strtolower(sdk_noaccent($tab_param_value["state"])));
+					$iparam++;
+					$param_action[$iparam] = $param_lu[0];
+					$param_periph[$iparam] = $param_lu[1];
+					$param_piece[$iparam] = $param_lu[2];
+					$param_api[$iparam] = $param_lu[3];
+					if (count($param_lu) > 4) {
+						$param_value[$iparam] = $param_lu[4];
+					} else {
+						$param_value[$iparam] = "";
+					}
+					if (count($param_lu) > 5) {
+						$param_mdp[$iparam] = $param_lu[5];
+					} else {
+						$param_mdp[$iparam] = "";
+					}
+				}
+			}
+			saveVariable("CHATBOT_PARAM_ACTION_".$numchat, $param_action);
+			saveVariable("CHATBOT_PARAM_PERIPH_".$numchat, $param_periph);
+			saveVariable("CHATBOT_PARAM_PIECE_".$numchat, $param_piece);
+			saveVariable("CHATBOT_PARAM_API_".$numchat, $param_api);
+			saveVariable("CHATBOT_PARAM_VALUE_".$numchat, $param_value);
+			saveVariable("CHATBOT_PARAM_MDP_".$numchat, $param_mdp);
+			for($iparam = 1; $iparam <= count($param_action); $iparam++) {
+				$xml .= "<PARAM_".$iparam.">".$param_action[$iparam].",".$param_periph[$iparam].",".$param_piece[$iparam].",".$param_api[$iparam].",".$param_value[$iparam].",".$param_mdp[$iparam]."</PARAM_".$iparam.">";
+			}
+			$xml .= "<MSG>CHATBOT ".$numchat."-".$chatbot_api."-".$iparam." params</MSG>";
+			$xml .= "<INPUT>--</INPUT></CHATBOT>";
+		} else {
+			if (is_numeric($api_output) && $api_output > 1) {
+				setValue($api_output, "(o_o)?");
+			}
+			$xml .= "<INPUT>!!(o_o)!!</INPUT></CHATBOT>";
 		}
-		$param_periph = loadVariable("CHATBOT_PARAM_PERIPH_".$numchat);
-		$param_piece = loadVariable("CHATBOT_PARAM_PIECE_".$numchat);
-		$param_api = loadVariable("CHATBOT_PARAM_API_".$numchat);
-		$param_value = loadVariable("CHATBOT_PARAM_VALUE_".$numchat);
-		$param_mdp = loadVariable("CHATBOT_PARAM_MDP_".$numchat);
 		
+		sdk_header('text/xml');
+		echo $xml;
+	} // fin input
+		
+	if ($action == "request") {
+		// enregistrement de l'API du chatBOT (Input y récupérera les paramètres)
+		saveVariable("CHATBOT_API_".$numchat, $periph_id);
+		// *****************************************************************************
 		$input_ok = false;
 		$api_input = "";
 		// récupère l'api de l'INPUT
@@ -296,6 +311,69 @@
 			$output_ok = true;
 			
 		}
+		// DICTIONNAIRE CHATBOT ********************************************************
+		$preload = loadVariable("CHATBOT_DICO_NOAPI");
+		if ($preload != '' && substr($preload, 0, 8) != "## ERROR") {
+			$noapi_text = $preload;
+			$tab_nack = loadVariable("CHATBOT_DICO_NACK");
+			$tab_ack = loadVariable("CHATBOT_DICO_ACK");
+			$mdp_text = loadVariable("CHATBOT_DICO_MDP");
+			$att_api_text = loadVariable("CHATBOT_DICO_ATTAPI");
+			$bad_mdp_text = loadVariable("CHATBOT_DICO_BADMDP");
+			$unit_temp_text = loadVariable("CHATBOT_DICO_UNITTEMP");
+			$unit_light_text = loadVariable("CHATBOT_DICO_UNITLIGHT");
+			$att_param_text = loadVariable("CHATBOT_DICO_ATTPARAM");
+			$tab_reponses_lumiere = loadVariable("CHATBOT_DICO_REPLUMIERE");
+			$tab_reponses_volet = loadVariable("CHATBOT_DICO_REPVOLET");
+			$tab_reponses_temperature = loadVariable("CHATBOT_DICO_REPTEMP");
+			$tab_reponses_ouvrant = loadVariable("CHATBOT_DICO_REPOUVRANT");
+			$tab_reponses_alarme = loadVariable("CHATBOT_DICO_REPALARME");
+			$tab_reponses_tv = loadVariable("CHATBOT_DICO_REPTV");
+			$tab_reponses_radio = loadVariable("CHATBOT_DICO_REPRADIO");
+			$tab_reponses_ambiance = loadVariable("CHATBOT_DICO_REPAMBIANCE");
+			$tab_reponses_camera = loadVariable("CHATBOT_DICO_REPCAMERA");
+			$tab_pieces = loadVariable("CHATBOT_DICO_PIECES");
+			$tab_artpieces = loadVariable("CHATBOT_DICO_ARTPIECES");
+			$tab_desactiver = loadVariable("CHATBOT_DICO_DESACTIVER");
+			$tab_activer = loadVariable("CHATBOT_DICO_ACTIVER");
+			$tab_lancer = loadVariable("CHATBOT_DICO_LANCER");
+			$tab_diffuser = loadVariable("CHATBOT_DICO_DIFFUSER");
+			$tab_ouvrir = loadVariable("CHATBOT_DICO_OUVRIR");
+			$tab_fermer = loadVariable("CHATBOT_DICO_FERMER");
+			$tab_get = loadVariable("CHATBOT_DICO_GET");
+			$tab_set = loadVariable("CHATBOT_DICO_SET");
+			$tab_lumiere = loadVariable("CHATBOT_DICO_LUMIERE"); 
+			$tab_volet = loadVariable("CHATBOT_DICO_VOLET"); 
+			$tab_temperature = loadVariable("CHATBOT_DICO_TEMPERATURE");
+			$tab_tv = loadVariable("CHATBOT_DICO_TV");
+			$tab_radio = loadVariable("CHATBOT_DICO_RADIO");
+			$tab_ambiance = loadVariable("CHATBOT_DICO_AMBIANCE");
+			$tab_ouvrant = loadVariable("CHATBOT_DICO_OUVRANT");
+			$tab_alarme = loadVariable("CHATBOT_DICO_ALARME");
+			$tab_camera = loadVariable("CHATBOT_DICO_CAMERA");
+		} else {
+			$input_ok = false;
+		}
+		
+		// Vérifie que le plugin Notification est effectif pour répondre
+		$notification = false;
+		if (is_numeric($notif) && $notif > 1) {
+				$notification = true; 
+		}
+		
+		// chargement des paramètres
+		$param_action = array();
+		$preload = loadVariable("CHATBOT_PARAM_ACTION_".$numchat);
+		if ($preload != '' && substr($preload, 0, 8) != "## ERROR") {
+			$param_action = $preload;
+		}
+		$param_periph = loadVariable("CHATBOT_PARAM_PERIPH_".$numchat);
+		$param_piece = loadVariable("CHATBOT_PARAM_PIECE_".$numchat);
+		$param_api = loadVariable("CHATBOT_PARAM_API_".$numchat);
+		$param_value = loadVariable("CHATBOT_PARAM_VALUE_".$numchat);
+		$param_mdp = loadVariable("CHATBOT_PARAM_MDP_".$numchat);
+		
+		
 		// INPUT  OK
 		if ($input_ok) {
 			// obligé d'effacter les notifications en mémoire de tous les chatbots (car si même notificateur, il va lire d'anciens mesg d'autres BOT)
@@ -306,6 +384,7 @@
 			saveVariable("CHATBOT_9999_4", "");
 			saveVariable("CHATBOT_9999_5", "");
 			
+		  // Cas de l'attente mot de passe
 		  $preload = loadVariable("CHATBOT_CHKPWD_".$numchat);
 		  if ($preload != '' && substr($preload, 0, 8) != "## ERROR") {
 		  	// on attend un mot de passe
@@ -397,6 +476,8 @@
 			saveVariable("CHATBOT_CHKACT_".$numchat, "");
 			saveVariable("CHATBOT_CHKREP_".$numchat, "");
 			saveVariable("CHATBOT_CHKPIE_".$numchat, "");
+		
+		  // Cas normal
 		  } else {
 			// interpretation de l'input
 			// recherche de l'action
@@ -406,6 +487,8 @@
 			$piece = false;
 			$desactiver = false;
 			$activer = false;
+			$diffuser = false;
+			$lancer = false;
 			$get = false;
 			$set = false;
 			$ouvrir = false;
@@ -465,7 +548,28 @@
 					}
 				}
 			}
+			
 			if (!$get && !$desactiver && !$activer && !$ouvrir && !$fermer) {
+				foreach($tab_diffuser As $tab_set_value) {
+					if (strpos($input, $tab_set_value) !== false) {
+						$diffuser = true;
+						$actionlue = "cast";
+						break;
+					}
+				}
+			}
+			
+			if (!$get && !$desactiver && !$activer && !$ouvrir && !$fermer && !$diffuser) {
+				foreach($tab_lancer As $tab_set_value) {
+					if (strpos($input, $tab_set_value) !== false) {
+						$lancer = true;
+						$actionlue = "launch";
+						break;
+					}
+				}
+			}
+			
+			if (!$get && !$desactiver && !$activer && !$ouvrir && !$fermer && !$diffuser && !$lancer) {
 				foreach($tab_set As $tab_set_value) {
 					if (strpos($input, $tab_set_value) !== false) {
 						$set = true;
@@ -474,8 +578,16 @@
 					}
 				}
 			}
+			
+			
 			//*************************************************************************
 			// PERIPHERIQUES
+			
+			
+			if ($lancer || $diffuser) {
+				$periphlu = $input;
+			} else 
+			{
 			
 			foreach($tab_volet As $tab_volet_value) {
 					if (strpos($input, $tab_volet_value) !== false) {
@@ -561,24 +673,28 @@
 					}
 				}
 			}
-			// PIECE pour réponse
-			foreach($tab_pieces As $tab_piece_key => $tab_piece_value) {
-				if (strpos($input, $tab_piece_value) !== false) {
-					$piece = true;
-					$piecelue = $tab_piece_value;
-					$articlelu = "";
-					foreach($tab_artpieces As $tab_artpiece_key => $tab_artpiece_value) {
-						if ($tab_piece_key >= $tab_artpiece_key) {
-							$articlelu = $tab_artpiece_value;
+			}
+			
+			if (!$diffuser) {
+				// PIECE pour réponse
+				foreach($tab_pieces As $tab_piece_key => $tab_piece_value) {
+					if (strpos($input, $tab_piece_value) !== false) {
+						$piece = true;
+						$piecelue = $tab_piece_value;
+						$articlelu = "";
+						foreach($tab_artpieces As $tab_artpiece_key => $tab_artpiece_value) {
+							if ($tab_piece_key >= $tab_artpiece_key) {
+								$articlelu = $tab_artpiece_value;
+							}
 						}
+						$piecelue = $articlelu.$piecelue;
+						break;
 					}
-					$piecelue = $articlelu.$piecelue;
-					break;
 				}
 			}
 			// Action trouvée, recherche paramètre correspondant
 			$debug = "";
-			if ($activer || $desactiver || $get || $ouvrir || $fermer || $set) {
+			if ($activer || $desactiver || $get || $ouvrir || $fermer || $diffuser || $lancer || $set) {
 			  $debug = $actionlue;
 			  if (count($param_action) > 0) {
 				
@@ -588,6 +704,12 @@
 				$apitoset = "";
 				$valuetoset = "";
 				$txt_reponse = "";
+				if ($diffuser) {
+					$chaine='Bonjour, je suis moi!';
+					$explode = explode(' ', $input, 2);
+ 					$txt_reponse = $explode[1];
+					$understood = true;
+				} else {
 				for($iparam = 1; $iparam <= count($param_action); $iparam++) {
 					if ($param_action[$iparam] == $actionlue) {
 						$debug .= " A ";
@@ -638,6 +760,7 @@
 							}
 						}
 					}
+				}
 				}
 				if ($needmdp) {
 					// demande password
@@ -737,7 +860,8 @@
 									$newnotif = sdk_notification($noapi_text);
 								}
 							}
-						
+						} else if ($diffuser) { // diffuser
+							$newnotif = sdk_notification($txt_reponse);
 						} else { // action
 							if (is_numeric($apitoset) && $apitoset > 1 && $valuetoset != "") {
 								setValue($apitoset, $valuetoset);
@@ -769,8 +893,10 @@
 				  $newnotif = sdk_notification("RocknRoll");
 			} else if ($input == "version") { 
 				  $newnotif = sdk_notification("eedomus chatBOT #".$numchat." ".$version);
+			 } else if ($input == "author" || $input == "auteur" || $input == "credit" ) { 
+				  $newnotif = sdk_notification("eedomus chatBOT designed by ".$author);
 			} else if ($input == "test") { 
-				  $newnotif = sdk_notification("eedomus chatBOT #".$numchat." (".$lang.") TEST 1 2 1 2");
+				  $newnotif = sdk_notification("eedomus chatBOT #".$numchat." (".$lang.") TEST MICRO");
 			} else {	// action non reconnue parmi $activer || $desactiver || $get || $ouvrir || $fermer || $set
 				if ($isdebug == 1) {
 					$nack = sdk_nack("",$debug."(".$input.")");

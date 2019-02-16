@@ -89,7 +89,7 @@ Le plugin est installé avec des exemples de valeurs prédéfinies.
   
 Une interpretation doit être paramétrée dans l'ordre suivant, chaque critère séparé d'une virgule, parmi la liste de valeurs suivantes :  
 
-  * L'action : Start ou Stop ou Open ou Close ou Get ou Set
+  * L'action : Start ou Stop ou Open ou Close ou Cast ou Launch ou Get ou Set
   * Le type de périphérique : Lumière ou Volet ou Porte ou Temperature ou Alarme ou Television ou Radio ou Ambiance ou Camera
   * Un mot clé discriminant : par exemple la pièce (non obligatoire)
   * Le code API du périphérique à actionner/interroger
@@ -109,6 +109,14 @@ Exemples (avec question Telegram) :
   * Set,Température,Salon,123456 : Fixe la température du salon (périp 123456) à la valeur numérique transmise dans la demande  
   * Set,Television,,334455 : Règle la télévision sur la 23, à la question "#ee mets la chaîne 23"  
   * Set,Ambiance,Salon,555555 : Règle l'ambiance à "Lumineux", à la question "#ee Peux-tu mettre l'ambiance Lumineux dans le salon"
+  * Launch,Simulation,,987654,100 : Périphérique 987654 à 100 à la demande "#ee Lance la simulation de présence"  
+  
+  
+Vous pouvez simplement envoyer un texte en output ou notification avec une commande de diffusion :  
+  * #ee diffuse ceci est un test de diffusion
+  * #ee dit il fait beau et chaud
+  
+Cela permet par exemple d'envoyer le texte dans l'output via un chatbot dédié pour qu'il soit ensuite lu en notification dans la maison  
   
   
 NB1 : si mot de passe demandé, via Telegram, il faut le saisir avec le hashtag déclencheur du chatbot "#ee"  
@@ -139,10 +147,10 @@ Le chatBOT est censé alors s'initialiser automatiquement après quelques minutes.
 En cas de mise à jour ou réinstallation du plugin, il faudra une première exécution d'une question pour l'initialiser.  
 Donnez dans ce cas l'input "init" par exemple.  
 
-En cas de mise à jour des paramètres d'interpretation, il faut un polling du capteur "Input" pour que les mises à jour soient prises en compte.  
+En cas de mise à jour des paramètres d'interpretation ou de langage, il faut un polling du capteur "Input" pour que les mises à jour soient prises en compte (30mn).  
   
   
-Influman 2018  
+Influman 2018-2019  
 therealinfluman@gmail.com  
 [Paypal Me](https://www.paypal.me/influman "paypal.me")  
   
